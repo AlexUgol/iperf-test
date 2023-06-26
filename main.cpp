@@ -13,8 +13,17 @@ int main(int, char **)
 	iperf_set_test_server_hostname(test, "localhost");
 
 	iperf_set_test_reverse(test, 1);
-	iperf_set_test_bytes(test, 100 * 1024 * 1024);
+	iperf_set_test_bytes(test, 200 * 1024);
+	//iperf_set_test_blksize(test, 10 * 1024);
+	set_protocol(test, Psctp);
 
-	iperf_run_client(test);
+	int result = iperf_run_client(test);
+	if (result < 0)
+	{
+		cout << iperf_strerror(i_errno) << endl;
+		return EXIT_FAILURE;
+	}
+
 	iperf_free_test(test);
+	return EXIT_SUCCESS;
 }
